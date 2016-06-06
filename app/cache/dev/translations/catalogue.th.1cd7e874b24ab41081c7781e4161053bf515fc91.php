@@ -212,6 +212,8 @@ $catalogueEn = new MessageCatalogue('en', array (
     'Welcome' => 'Welcome to the intranet',
     'lang' => 'ENGLISH',
     'Hello' => 'Hi!',
+    'you dont exist' => 'If you are here it\'s because you dont exist yet on the databse',
+    'creating on database' => 'We are going to create you on the database',
     'Settings' => 'Settings',
     'Forms' => 'Forms',
     'Overtime Hours' => 'Overtime Hours',
@@ -232,6 +234,10 @@ $catalogueEn = new MessageCatalogue('en', array (
     'Notifications' => 'Activate Notifications',
     'Photo' => 'Profile Picture',
     'Modify' => 'Update',
+    'new_channel' => 'Create a New Channel',
+    'message_1' => 'Due to the big number of elements in the News Feed, it is decided not to link them at the hour of create a channel.<br>Otherwise, it is possible to do it editing the news. <br><br><u>But IT IS POSSIBLE to link the channels to the users.</u>',
+    'create_channel' => 'Create the Channel',
+    'message_2' => 'Not a bad idea to build a filter by channel<br> or showing also the channels which it belongs and clicking in the name of the td',
   ),
 ));
 $catalogue->addFallbackCatalogue($catalogueEn);

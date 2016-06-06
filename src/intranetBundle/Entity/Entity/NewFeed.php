@@ -3,6 +3,8 @@
 namespace intranetBundle\Entity\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\XmlElement;
+use JMS\Serializer\Annotation\XmlRoot;
 
 /**
  * NewFeed
@@ -11,26 +13,31 @@ class NewFeed
 {
     /**
      * @var int
+     * @XmlElement(cdata=false)
      */
     private $id;
 
     /**
      * @var string
+     * @XmlElement(cdata=false)
      */
     private $date;
 
     /**
      * @var string
+     * @XmlElement(cdata=false)
      */
     private $time;
 
     /**
      * @var string
+     * @XmlElement(cdata=false)
      */
     private $title;
 
     /**
      * @var string
+     * @XmlElement(cdata=false)
      */
     private $content;
 

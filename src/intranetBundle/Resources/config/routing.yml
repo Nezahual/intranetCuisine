@@ -243,3 +243,18 @@ intranet_book:
     defaults: { _controller: intranetBundle:Default:book, _locale:en }
     requirements:
         _locale: en|fr|es
+
+
+#TASKTEMPLATES
+
+intranet_main_task_dialog:
+    path:     /{_locale}/mainTaskDialog
+    defaults: { _controller: intranetBundle:Default:mainTaskDialog, _locale:en }
+    requirements:
+        _locale: en|fr|es
+
+intranet_main_task_dialog2:
+    path:     /{_locale}/mainTaskDialog
+    defaults: { _controller: intranetBundle:Default:editeTaskAction, _locale:en }
+    requirements:
+        _locale: en|fr|es

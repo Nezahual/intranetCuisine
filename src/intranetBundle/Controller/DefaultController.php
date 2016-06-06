@@ -151,12 +151,22 @@ class DefaultController extends Controller{
       public function tasksAction(){
        $tareas = $this->getDoctrine()
                       ->getRepository('intranetBundle:Entity\Tasks')
-                      ->findAll();
+                      ->findAll(array());
+
+        $tasks = [];
+
+        foreach ($tareas as $index => $object) {
+          array_push($tasks, [$object->getId(),
+                    $object->getTitle(),
+                    $object->getContent(),
+                    $object->getWhoCreate()]);
+        }
 
        //TODO
        if (!$tareas) {throw $this->createNotFoundException('No product found for id '.$id);}
 
-       $params=array('listTasks'=>$tareas, 'rol'=>$_SESSION['rol']);
+
+       $params=array('listTasks'=>$tasks, 'rol'=>$_SESSION['rol'], 'userLogin'=>$_SESSION['userLDAP']);
        return $this->render('intranetBundle:Default:tasks.html.twig',$params);
       }
 
@@ -177,6 +187,7 @@ class DefaultController extends Controller{
         $usuario = $this->getDoctrine()
                         ->getRepository('intranetBundle:Entity\Users')
                         ->findAll(); #findAll
+
         //TODO
         if (!$usuario) {throw $this->createNotFoundException('No product found for id '.$id);}
         $params=array('listUsers'=>$usuario);
@@ -1084,10 +1095,13 @@ class DefaultController extends Controller{
                                  ->getRepository('intranetBundle:Entity\Users')
                                  ->findAll();
            $params=array('task'=>$task,'usersWithTask'=>$usersWithTask, 'allUsers'=>$allUsers, 'rol'=>$_SESSION['rol']);
-           return $this->render('intranetBundle:Default:editTask.html.twig', $params);
+           //return $this->render('intranetBundle:Default:editTask.html.twig', $params);
+           return $this->render('intranetBundle:TaskTemplates:mainTaskDialog.tmpl.html', $params);
         }
 
         public function updateTaskAction(){
+            var_dump($_POST);
+            echo $_SERVER['REQUEST_METHOD'];
           if (isset($_POST['update'])) {
               return self::updatTaskAction();
           } else if (isset($_POST['delete'])) {
@@ -1096,7 +1110,8 @@ class DefaultController extends Controller{
         }
 
         public function updatTaskAction(){
-            $em = $this->getDoctrine()->getManager();
+            var_dump($_REQUEST);
+            /*$em = $this->getDoctrine()->getManager();
             $product = $em->getRepository('intranetBundle:Entity\Tasks')->find($_REQUEST['id']);
 
             $product->setTitle($_REQUEST['title']);
@@ -1133,7 +1148,8 @@ class DefaultController extends Controller{
                  }
                }
              }
-            return self::tasksAction();
+            return self::tasksAction();*/
+            return $this->render('intranetBundle:Default:tasks.html.twig',[]);
         }
 
         public function deletTaskAction(){
@@ -1328,5 +1344,12 @@ class DefaultController extends Controller{
                );
         }
 
+#*****************Template task controllers*****************#
+
+  public function mainTaskDialogAction() {
+
+    return $this->render(
+       'intranetBundle:TaskTemplates:mainTaskDialog.tmpl.html'
+      );
+  }
 }
-//1366

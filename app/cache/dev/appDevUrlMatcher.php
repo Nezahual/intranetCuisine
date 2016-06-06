@@ -312,6 +312,16 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'intranet_book')), array (  '_controller' => 'intranetBundle\\Controller\\DefaultController::bookAction',  '_locale' => 'en',));
         }
 
+        // intranet_main_task_dialog
+        if (preg_match('#^/(?P<_locale>en|fr|es)/mainTaskDialog$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'intranet_main_task_dialog')), array (  '_controller' => 'intranetBundle\\Controller\\DefaultController::mainTaskDialogAction',  '_locale' => 'en',));
+        }
+
+        // intranet_main_task_dialog2
+        if (preg_match('#^/(?P<_locale>en|fr|es)/mainTaskDialog$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'intranet_main_task_dialog2')), array (  '_controller' => 'intranetBundle\\Controller\\DefaultController::editeTaskActionAction',  '_locale' => 'en',));
+        }
+
         // homepage
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {
@@ -319,6 +329,128 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             }
 
             return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
+        }
+
+        if (0 === strpos($pathinfo, '/api')) {
+            if (0 === strpos($pathinfo, '/api/users')) {
+                // api_get_users
+                if (preg_match('#^/api/users(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_api_get_users;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_users')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getUsersAction',  '_format' => 'json',));
+                }
+                not_api_get_users:
+
+                // api_get_user
+                if (preg_match('#^/api/users/(?P<login>[^/\\.]++)(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_api_get_user;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_user')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getUserAction',  '_format' => 'json',));
+                }
+                not_api_get_user:
+
+                // api_get_users_all_onboard
+                if (0 === strpos($pathinfo, '/api/users/all/onboard') && preg_match('#^/api/users/all/onboard(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_api_get_users_all_onboard;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_users_all_onboard')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getUsersAllOnboardAction',  '_format' => 'json',));
+                }
+                not_api_get_users_all_onboard:
+
+                // api_get_user_tasks
+                if (preg_match('#^/api/users/(?P<login>[^/]++)/tasks(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_api_get_user_tasks;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_user_tasks')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getUserTasksAction',  '_format' => 'json',));
+                }
+                not_api_get_user_tasks:
+
+            }
+
+            if (0 === strpos($pathinfo, '/api/tasks')) {
+                // api_get_tasks
+                if (preg_match('#^/api/tasks(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_api_get_tasks;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_tasks')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getTasksAction',  '_format' => 'json',));
+                }
+                not_api_get_tasks:
+
+                // api_get_task_users
+                if (preg_match('#^/api/tasks/(?P<id>[^/]++)/users(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_api_get_task_users;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_task_users')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getTaskUsersAction',  '_format' => 'json',));
+                }
+                not_api_get_task_users:
+
+            }
+
+            if (0 === strpos($pathinfo, '/api/forms')) {
+                // api_get_forms_all
+                if (0 === strpos($pathinfo, '/api/forms/all') && preg_match('#^/api/forms/all(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_api_get_forms_all;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_forms_all')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getFormsAllAction',  '_format' => 'json',));
+                }
+                not_api_get_forms_all:
+
+                // api_get_forms
+                if (preg_match('#^/api/forms/(?P<login>[^/\\.]++)(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_api_get_forms;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_forms')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getFormsAction',  '_format' => 'json',));
+                }
+                not_api_get_forms:
+
+            }
+
+            // api_get_news
+            if (0 === strpos($pathinfo, '/api/news') && preg_match('#^/api/news(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_api_get_news;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_news')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getNewsAction',  '_format' => 'json',));
+            }
+            not_api_get_news:
+
+            // api_get_task
+            if (0 === strpos($pathinfo, '/api/tasks') && preg_match('#^/api/tasks/(?P<id>[^/\\.]++)(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('DELETE', 'GET', 'PATCH', 'HEAD'))) {
+                    $allow = array_merge($allow, array('DELETE', 'GET', 'PATCH', 'HEAD'));
+                    goto not_api_get_task;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_task')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getTaskAction',  '_format' => 'json',));
+            }
+            not_api_get_task:
+
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

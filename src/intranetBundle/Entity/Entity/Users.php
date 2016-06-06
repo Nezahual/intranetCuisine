@@ -3,9 +3,13 @@
 namespace intranetBundle\Entity\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\XmlElement;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlRoot;
 
 /**
  * Users
+ * @XmlRoot("user") //Allows to set the name of the top-level element if the query just returns 1 element
  */
 class Users
 {
@@ -20,11 +24,15 @@ class Users
     private $login;
 
     /**
+     * This is not necessary, it's just an example just in case in any moment it's required that the API also returns XML format.
+     * @XmlElement(cdata=false) //Avoids to print "CDATA"
+     * @SerializedName("name") //Allows to set a custom property name and keep it on camelCase notation
      * @var string
      */
     private $nameU;
 
     /**
+     * @SerializedName("surname")
      * @var string
      */
     private $surnameU;
