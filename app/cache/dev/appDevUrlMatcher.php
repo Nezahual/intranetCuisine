@@ -429,16 +429,30 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
             }
 
-            // api_get_news
-            if (0 === strpos($pathinfo, '/api/news') && preg_match('#^/api/news(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'HEAD'));
-                    goto not_api_get_news;
-                }
+            if (0 === strpos($pathinfo, '/api/news')) {
+                // api_get_news
+                if (preg_match('#^/api/news(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_api_get_news;
+                    }
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_news')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getNewsAction',  '_format' => 'json',));
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_news')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getNewsAction',  '_format' => 'json',));
+                }
+                not_api_get_news:
+
+                // api_get_newschannel
+                if (0 === strpos($pathinfo, '/api/newschannel') && preg_match('#^/api/newschannel(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_api_get_newschannel;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'api_get_newschannel')), array (  '_controller' => 'intranetBundle\\Controller\\ApiRestController::getNewschannelAction',  '_format' => 'json',));
+                }
+                not_api_get_newschannel:
+
             }
-            not_api_get_news:
 
             // api_get_task
             if (0 === strpos($pathinfo, '/api/tasks') && preg_match('#^/api/tasks/(?P<id>[^/\\.]++)(?:\\.(?P<_format>xml|json|html))?$#s', $pathinfo, $matches)) {

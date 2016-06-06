@@ -370,6 +370,16 @@ class ApiRestController extends Controller
 
         return $newsList;
     }
+    
+    public function getNewschannelAction(){
+
+        $newsList = $this->getDoctrine()->getRepository('intranetBundle:Entity\channelnew_feed')->findAll();
+
+        $serializer = SerializerBuilder::create()->build();
+        $serializer->serialize($newsList, 'json');
+
+        return $newsList;
+    }
 }
 
 ?>
